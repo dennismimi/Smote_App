@@ -90,6 +90,7 @@ df_pred['OccupationArea'] = df_pred['OccupationArea'].apply(transform)
 
 model = joblib.load('catboost_model.pkl')
 prediction = model.predict(df_pred)
+st.write(prediction)
 print(prediction)
 if st.button('Predict'):
     if prediction[0] == 0:
