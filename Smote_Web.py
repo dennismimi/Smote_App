@@ -88,7 +88,7 @@ df_pred['UseOfLoan'] = df_pred['UseOfLoan'].apply(transform)
 df_pred['LoanDuration'] = df_pred['LoanDuration'].apply(transform)
 df_pred['OccupationArea'] = df_pred['OccupationArea'].apply(transform)
 
-model = joblib.load('model.pkl')
+model = joblib.load('catboost_model.pkl')
 prediction = model.predict(df_pred)
 
 if st.button('Predict'):
