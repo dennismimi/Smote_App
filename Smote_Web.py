@@ -74,10 +74,8 @@ def transform(data):
         return occupationarea.index(data)
     elif data in useofloan:
         return useofloan.index(data)
-    elif data in loanduration:
-        return loanduration.index(data)
     else:
-        return 0
+        return loanduration.index(data)
 
 
 df_pred['Education'] = df_pred['Education'].apply(transform)
@@ -91,7 +89,7 @@ df_pred['OccupationArea'] = df_pred['OccupationArea'].apply(transform)
 model = joblib.load('catboost_model.pkl')
 prediction = model.predict(df_pred)
 st.write(prediction)
-print(prediction)
+
 if st.button('Predict'):
     if prediction[0] == 0:
         st.write('<p class="big-font">You are a defaulter.</p>',
