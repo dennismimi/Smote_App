@@ -99,23 +99,14 @@ def transform(data):
         return 0
 df_pred['Gender'] = df_pred['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
 df_pred['NewCreditCustomer'] = df_pred['NewCreditCustomer'].apply(lambda x: 1 if x == 'Yes' else 0)
-def make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
-                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
-                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
-                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion,):
+def make_predictions (pred_data):
     
     model = joblib.load('catboost_model.pkl')
-    pred = model.predict([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
-                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
-                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
-                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion,]])
+    pred = model.predict(pred_data)
     return pred
                       
     
-prediction = make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
-                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
-                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
-                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion)
+prediction = make_predictions (df_pred)
 st.write(prediction) 
 if st.button('Predict'):
     if prediction[0] == 0:
