@@ -92,10 +92,10 @@ def make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Ge
                     Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion,):
     
     model = joblib.load('catboost_model.pkl')
-    pred = model.predict(Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+    pred = model.predict([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
                      Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
                     EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
-                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion)
+                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion,]])
     return pred
                       
     
