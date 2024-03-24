@@ -42,7 +42,19 @@ UseOfLoan = ["Not_Set", "Loan_Consolidation", "Real_Estate", "Home_Improvement",
              "Civil_Service_and_Military", "Education_2", "Health_Care_and_Social_Help", "Arts_and_Entertainment",
              "Agriculture_Forestry_and_Fishing"]
 LoanDuration = ["less_than_a_month", "1 Month", "2_Months", "3_Months", "4_Months", "5_Months", "6_Months"]
+df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+                         AppliedAmount, Interest, UseOfLoan, Amount, Education,
+                         EmploymentDurationCurrentEmployer, Rating, MaritalStatus,
+                         EmploymentStatus, OccupationArea, HomeOwnershipType, ExistingLiabilities,
+                         DebtToIncome, IncomeTotal,
+                         Restructured, NoOfPreviousLoansBeforeLoan, CreditScoreEsMicroL, ModelVersion]],
 
+                       columns=['Age', 'LoanDuration', 'NewCreditCustomer', 'VerificationType', 'Gender',
+                                'AppliedAmount', 'Interest', 'UseOfLoan', 'Amount', 'Education',
+                                'EmploymentDurationCurrentEmployer', 'Rating', 'MaritalStatus',
+                                'EmploymentStatus', 'OccupationArea', 'HomeOwnershipType', 'ExistingLiabilities',
+                                'DebtToIncome', 'IncomeTotal',
+                                'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
 col1, col2, = st.columns(2)
 
 Age = col1.slider('Enter Age',0,100)
@@ -85,7 +97,8 @@ def transform(data):
         return LoanDuration.index(data)
     else:
         return 0
-
+df_pred['Gender'] = df_pred['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df_pred['NewCreditCustomer'] = df_pred['NewCreditCustomer'].apply(lambda x: 1 if x == 'Yes' else 0)
 def make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
                      Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
                     EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
