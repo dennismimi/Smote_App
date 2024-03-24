@@ -58,7 +58,7 @@ LoanDuration = col1.select_slider("How long do you intend to take to pay off you
 Interest = col2.number_input('The percentage of Interest')
 IncomeTotal = col1.number_input('Whats your Total Income?')
 NoofPreviousLoansBeforeLoan = col2.slider('Number of Previous Loans',1,20)
-AmountApplied = col2.number_input("The amount you wish to apply", 12345)
+AppliedAmount = col2.number_input("The amount you wish to apply", 12345)
 Amount = st.number_input('Amount you Received',10000)
 
 Rating = 10
