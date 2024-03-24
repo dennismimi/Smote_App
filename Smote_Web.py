@@ -42,19 +42,7 @@ UseOfLoan = ["Not_Set", "Loan_Consolidation", "Real_Estate", "Home_Improvement",
              "Civil_Service_and_Military", "Education_2", "Health_Care_and_Social_Help", "Arts_and_Entertainment",
              "Agriculture_Forestry_and_Fishing"]
 LoanDuration = ["less_than_a_month", "1 Month", "2_Months", "3_Months", "4_Months", "5_Months", "6_Months"]
-df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
-                         AppliedAmount, Interest, UseOfLoan, Amount, Education,
-                         EmploymentDurationCurrentEmployer, Rating, MaritalStatus,
-                         EmploymentStatus, OccupationArea, HomeOwnershipType, ExistingLiabilities,
-                         DebtToIncome, IncomeTotal,
-                         Restructured, NoOfPreviousLoansBeforeLoan, CreditScoreEsMicroL, ModelVersion]],
 
-                       columns=['Age', 'LoanDuration', 'NewCreditCustomer', 'VerificationType', 'Gender',
-                                'AppliedAmount', 'Interest', 'UseOfLoan', 'Amount', 'Education',
-                                'EmploymentDurationCurrentEmployer', 'Rating', 'MaritalStatus',
-                                'EmploymentStatus', 'OccupationArea', 'HomeOwnershipType', 'ExistingLiabilities',
-                                'DebtToIncome', 'IncomeTotal',
-                                'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
 col1, col2, = st.columns(2)
 
 Age = col1.slider('Enter Age',0,100)
@@ -81,7 +69,19 @@ CreditScoreEsMicroL = 0.9
 ModelVersion = 2
 VerificationType = 1
 LanguageCode = 9600
+df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+                         AppliedAmount, Interest, UseOfLoan, Amount, Education,
+                         EmploymentDurationCurrentEmployer, Rating, MaritalStatus,
+                         EmploymentStatus, OccupationArea, HomeOwnershipType, ExistingLiabilities,
+                         DebtToIncome, IncomeTotal,
+                         Restructured, NoOfPreviousLoansBeforeLoan, CreditScoreEsMicroL, ModelVersion]],
 
+                       columns=['Age', 'LoanDuration', 'NewCreditCustomer', 'VerificationType', 'Gender',
+                                'AppliedAmount', 'Interest', 'UseOfLoan', 'Amount', 'Education',
+                                'EmploymentDurationCurrentEmployer', 'Rating', 'MaritalStatus',
+                                'EmploymentStatus', 'OccupationArea', 'HomeOwnershipType', 'ExistingLiabilities',
+                                'DebtToIncome', 'IncomeTotal',
+                                'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
 def transform(data):
     if data in Marital_list:
         return Marital_list.index(data)
