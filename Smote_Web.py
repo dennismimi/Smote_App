@@ -2,48 +2,68 @@ import streamlit as st  # import the module for the websites
 import joblib  # module to load model data
 import pandas as pd
 
-st.write("Loan Status Prediction")
-education_list = ["Basic", "Primary", "Vocational", "Secondary", "Higher"]
-marital_list = ["Married", "Cohabitant", "Single", "Divorced", "Widow"]
-employmentstatus = ["Unemployed", "Partially", "Fully", "Self", "Entrepreneur", "Retiree"]
-hometypeownership = ["Homeless", "Owner", "Living_With_Parents", "Tenant", "Prefurnished_Property",
+#------- SETTINGS-----------
+page_title = "Credit Scoring Application"
+page_write = " Fill the Form Below for Prediction"
+page_icon = ":moneybag:"
+layout = "centered"
+#-----------------
+
+
+
+
+st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
+
+st.title(page_title + " " + page_icon)
+
+st.write(""" ### Fill the Form Below for Prediction:money_with_wings:""")
+
+st.sidebar.selectbox('Explore or Predict',("Predict","Explore"))
+
+Education_list = ["Basic", "Primary", "Vocational", "Secondary", "Higher"]
+Marital_list = ["Married", "Cohabitant", "Single", "Divorced", "Widow"]
+EmploymentStatus = ["Unemployed", "Partially", "Fully", "Self", "Entrepreneur", "Retiree"]
+HomeTypeOwnership = ["Homeless", "Owner", "Living_With_Parents", "Tenant", "Prefurnished_Property",
                      "Unfurnished_Property", "Joint_Tenant", "Joint_Ownership", "Mortgage", "Owner_with_Encumbrance",
                      "Other"]
-occupationarea = ["Other", "Mining", "Processing", "Energies", "Utilities", "Construction",
+OccupationArea = ["Other", "Mining", "Processing", "Energies", "Utilities", "Construction",
                   "Retail_and_Wholesale", "Transport_and_Warehousing", "Hospitality_and_Catering",
                   "Finance_and_Insurance", "Real_Estate", "Research", "Administrative", "Civil_Service_and_Military",
                   "Education", "Health_Care_and_Social_Help", "Arts_and_Entertainment",
                   "Agriculture_Forestry_and_Fishing"]
-useofloan = ["Not_Set", "Loan_Consolidation", "Real_Estate", "Home_Improvement", "Business", "Education", "Travel",
+UseOfLoan = ["Not_Set", "Loan_Consolidation", "Real_Estate", "Home_Improvement", "Business", "Education", "Travel",
              "Vehicle", "Other", "Health", "Finance_and_Insurance", "Research", "Administrative",
              "Civil_Service_and_Military", "Education_2", "Health_Care_and_Social_Help", "Arts_and_Entertainment",
              "Agriculture_Forestry_and_Fishing"]
-loanduration = ["less_than_a_month", "1 Month", "2_Months", "3_Months", "4_Months", "5_Months", "6_Months"]
-col1, col2, col3 = st.columns(3)
-Gender = col1.selectbox("Enter your gender", ["Male", "Female"])
-Age = col2.number_input("Enter your age")
-MaritalStatus = col1.selectbox("Enter your gender", marital_list)
-Education = col3.selectbox("Highest academic qualification", education_list)
-NewCreditCustomer = col1.selectbox("Is this your first time Applying for a loan?", ["Yes", "No"])
-EmploymentStatus = col3.selectbox("what job do you do?", employmentstatus)
-UseOfLoan = col3.selectbox("What is the use of the loan?", useofloan)
-HomeOwnershipType = col1.selectbox("what is you status of your home?", hometypeownership)
-OccupationArea = col1.selectbox("What area do you stay?", occupationarea)
-# EmploymentDurationCurrentEmployer = col2.number_input("How long have you been employed? ")
-LoanDuration = col2.selectbox("how long will you take to pay the loan", loanduration)
-AppliedAmount = col2.number_input("The amount you wish to apply")
-Interest = col3.number_input("The percentage of interest")
-Amount = col2.number_input("The amount you got")
-Rating = 3.86
-ExistingLiabilities = 2.57
-DebtToIncome = 4.16
-IncomeTotal = 2036
-Restructured = 0.32
-EmploymentDurationCurrentEmployer = 3.5
-NoOfPreviousLoansBeforeLoan = 1.5
-CreditScoreEsMicroL = 1.6
-ModelVersion = 5.26
-VerificationType = 3.35
+LoanDuration = ["less_than_a_month", "1 Month", "2_Months", "3_Months", "4_Months", "5_Months", "6_Months"]
+
+col1, col2, = st.columns(2)
+
+Age = col1.slider('Enter Age',0,100)
+Gender = col2.radio("Select Gender",["Male", "Female", "Other"])
+MaritalStatus = col1.selectbox("Choose which best describes your Marital Status",Marital_list)
+Education = col1.selectbox("Education Level", Education_list)
+NewCreditCustomer = col2.select_slider('Is This Your First Time Applying for Credit', ['Yes', 'No'])
+EmploymentStatus = col1.selectbox('Choose Which best describes your Employment Status', EmploymentStatus)
+HomeTypeOwnership = col2.selectbox('Choose Which Best Describes Your Home',HomeTypeOwnership)
+EmploymentDurationCurrentEmployer = col1.slider('How Long have you been Employed',0,50)
+OccupationArea = col2.selectbox('Select Your Occupation Area', OccupationArea)
+LoanDuration = col1.select_slider("How long do you intend to take to pay off your credit", LoanDuration)
+Interest = col2.number_input('The percentage of Interest')
+IncomeTotal = col1.number_input('Whats your Total Income?')
+NoofPreviousLoansBeforeLoan = col2.slider('Number of Previous Loans',1,20)
+AmountApplied = col2.number_input("The amount you wish to apply", 12345)
+Amount = st.number_input('Amount you Received',10000)
+
+Rating = 10
+ExistingLiabilities = 0
+DebtToIncome = 0.12
+Restructured = 1
+CreditScoreEsMicroL = 0.9
+ModelVersion = 2
+VerificationType = 1
+LanguageCode = 9600
+
 df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
                          AppliedAmount, Interest, UseOfLoan, Amount, Education,
                          EmploymentDurationCurrentEmployer, Rating, MaritalStatus,
@@ -92,7 +112,8 @@ st.write(prediction)
 
 if st.button('Predict'):
     if prediction[0] == 0:
-        st.write('<p class="big-font">You are a defaulter.</p>',
-                 unsafe_allow_html=True)
+        st.write('<p class="big-font">Your Credit Score is High.You can apply for a Loan.:thumbsup:</p>',
+                     unsafe_allow_html=True)
     else:
-        st.write('<p class="big-font">You have paid you loan.</p>', unsafe_allow_html=True)
+        st.write('<p class="big-font">Your Credit Score is Low.You are Likely to Default.:thumbsdown:</p>',
+                     unsafe_allow_html=True)
