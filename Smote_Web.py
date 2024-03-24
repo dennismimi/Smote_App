@@ -1,6 +1,12 @@
 import streamlit as st  # import the module for the websites
 import joblib  # module to load model data
 import pandas as pd
+import streamlit as st
+import numpy as np
+import pandas as pd
+import pickle
+
+
 
 #------- SETTINGS-----------
 page_title = "Credit Scoring Application"
@@ -64,56 +70,44 @@ ModelVersion = 2
 VerificationType = 1
 LanguageCode = 9600
 
-df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
-                         AppliedAmount, Interest, UseOfLoan, Amount, Education,
-                         EmploymentDurationCurrentEmployer, Rating, MaritalStatus,
-                         EmploymentStatus, OccupationArea, HomeOwnershipType, ExistingLiabilities,
-                         DebtToIncome, IncomeTotal,
-                         Restructured, NoOfPreviousLoansBeforeLoan, CreditScoreEsMicroL, ModelVersion]],
-
-                       columns=['Age', 'LoanDuration', 'NewCreditCustomer', 'VerificationType', 'Gender',
-                                'AppliedAmount', 'Interest', 'UseOfLoan', 'Amount', 'Education',
-                                'EmploymentDurationCurrentEmployer', 'Rating', 'MaritalStatus',
-                                'EmploymentStatus', 'OccupationArea', 'HomeOwnershipType', 'ExistingLiabilities',
-                                'DebtToIncome', 'IncomeTotal',
-                                'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
-
-df_pred['Gender'] = df_pred['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
-
-df_pred['NewCreditCustomer'] = df_pred['NewCreditCustomer'].apply(lambda x: 1 if x == 'Yes' else 0)
-
-
 def transform(data):
-    if data in marital_list:
-        return marital_list.index(data)
-    elif data in employmentstatus:
-        return employmentstatus.index(data)
-    elif data in education_list:
-        return education_list.index(data)
-    elif data in occupationarea:
-        return occupationarea.index(data)
-    elif data in useofloan:
-        return useofloan.index(data)
+    if data in Marital_list:
+        return Marital_list.index(data)
+    elif data in Education_list:
+        return Education_list.index(data)
+    elif data in EmploymentStatus:
+        return EmploymentStatus.index(data)
+    elif data in OccupationArea:
+        return OccupationArea.index(data)
+    elif data in UseOfLoan:
+        return UseOfLoan.index(data)
+    elif data in LoanDuration:
+        return LoanDuration.index(data)
     else:
-        return loanduration.index(data)
+        return 0
 
-
-df_pred['Education'] = df_pred['Education'].apply(transform)
-df_pred['EmploymentStatus'] = df_pred['EmploymentStatus'].apply(transform)
-df_pred['MaritalStatus'] = df_pred['MaritalStatus'].apply(transform)
-df_pred['HomeOwnershipType'] = df_pred['HomeOwnershipType'].apply(transform)
-df_pred['UseOfLoan'] = df_pred['UseOfLoan'].apply(transform)
-df_pred['LoanDuration'] = df_pred['LoanDuration'].apply(transform)
-df_pred['OccupationArea'] = df_pred['OccupationArea'].apply(transform)
-
-model = joblib.load('catboost_model.pkl')
-prediction = model.predict(df_pred)
-st.write(prediction)
-
+def make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
+                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
+                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion,):
+    
+    model = joblib.load('catboost_model.pkl')
+    pred = model.predict(Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
+                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
+                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion)
+    return pred
+                      
+    
+prediction = make_predictions (Age, LoanDuration, NewCreditCustomer, VerificationType, Gender,
+                     Interest, UseOfLoan, Amount, AppliedAmount,LanguageCode,Education,EmploymentDurationCurrentEmployer,Rating, MaritalStatus,
+                    EmploymentStatus, OccupationArea, HomeOwnershipType,CreditScoreEsMicroL,ExistingLiabilities,DebtToIncome,IncomeTotal,
+                    Restructured, NoOfPreviousLoansBeforeLoan,ModelVersion)
+st.write(prediction) 
 if st.button('Predict'):
     if prediction[0] == 0:
         st.write('<p class="big-font">Your Credit Score is High.You can apply for a Loan.:thumbsup:</p>',
-                     unsafe_allow_html=True)
+                unsafe_allow_html=True)
     else:
         st.write('<p class="big-font">Your Credit Score is Low.You are Likely to Default.:thumbsdown:</p>',
-                     unsafe_allow_html=True)
+                unsafe_allow_html=True)
