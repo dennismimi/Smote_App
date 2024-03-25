@@ -83,6 +83,7 @@ df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType,
                                 'DebtToIncome', 'IncomeTotal',
                                 'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
 def transform(data):
+    print(data)
     if data in Marital_list:
         return Marital_list.index(data)
     elif data in Education_list:
