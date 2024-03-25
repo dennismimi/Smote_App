@@ -1,10 +1,6 @@
 import streamlit as st  # import the module for the websites
 import joblib  # module to load model data
 import pandas as pd
-import streamlit as st
-import numpy as np
-import pandas as pd
-import pickle
 
 
 
@@ -109,11 +105,9 @@ df_pred['LoanDuration'] = df_pred['LoanDuration'].apply(transform)
 df_pred['OccupationArea'] = df_pred['OccupationArea'].apply(transform)
 
 def make_predictions (pred_data):
-    
     model = joblib.load('catboost_model.pkl')
     pred = model.predict(pred_data)
-    return pred
-                      
+    return pred                     
     
 prediction = make_predictions (df_pred) 
 if st.button('Predict'):
