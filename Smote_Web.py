@@ -54,11 +54,12 @@ EmploymentStatus = col1.selectbox('Choose Which best describes your Employment S
 HomeOwnershipType = col2.selectbox('Choose Which Best Describes Your Home',homeTypeOwnership)
 EmploymentDurationCurrentEmployer = col1.slider('How Long have you been Employed',0,50)
 OccupationArea = col2.selectbox('Select Your Occupation Area', occupationArea)
-LoanDuration = col1.select_slider("How long do you intend to take to pay off your credit", loanDuration)
-Interest = col2.number_input('The percentage of Interest')
-IncomeTotal = col1.number_input('Whats your Total Income?')
-NoOfPreviousLoansBeforeLoan = col2.slider('Number of Previous Loans',1,20)
-AppliedAmount = col2.number_input("The amount you wish to apply", 12345)
+UseOfLoan = col1.selectbox("What is the use of the loan?", useofloan)
+LoanDuration = col2.select_slider("How long do you intend to take to pay off your credit", loanDuration)
+Interest = col1.number_input('The percentage of Interest')
+IncomeTotal = col2.number_input('Whats your Total Income?')
+NoOfPreviousLoansBeforeLoan = col1.slider('Number of Previous Loans',1,20)
+AppliedAmount = col1.number_input("The amount you wish to apply", 12345)
 Amount = st.number_input('Amount you Received',10000)
 
 Rating = 10
