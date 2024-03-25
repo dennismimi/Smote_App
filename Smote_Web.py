@@ -84,7 +84,6 @@ df_pred = pd.DataFrame([[Age, LoanDuration, NewCreditCustomer, VerificationType,
                                 'DebtToIncome', 'IncomeTotal',
                                 'Restructured', 'NoOfPreviousLoansBeforeLoan', 'CreditScoreEsMicroL', 'ModelVersion'])
 def transform(data):
-    print(data)
     if data in marital_list:
         return marital_list.index(data)
     elif data in education_list:
@@ -116,8 +115,7 @@ def make_predictions (pred_data):
     return pred
                       
     
-prediction = make_predictions (df_pred)
-st.write(prediction) 
+prediction = make_predictions (df_pred) 
 if st.button('Predict'):
     if prediction[0] == 0:
         st.write('<p class="big-font">Your Credit Score is High.You can apply for a Loan.:thumbsup:</p>',
