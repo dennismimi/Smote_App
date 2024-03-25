@@ -99,9 +99,9 @@ def transform(data):
     else:
         return 0
 df_pred['Gender'] = df_pred['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
-df_pred['NewCreditCustomer'] = df_pred['NewCreditCustomer'].apply(lambda x: 1 if x == 'Yes' else 0)
+df_pred['NewCreditCustomer'] = df_pred['NewCreditCustomer'].apply(lambda x: 1 if x == 'Yes' else Education_list.index(x))
 df_pred['Education'] = df_pred['Education'].apply(transform)
-df_pred['EmploymentStatus'] = df_pred['EmploymentStatus'].apply(transform)
+df_pred['EmploymentStatus'] = df_pred['EmploymentStatus'].apply(lambda x: 1 if x == 'Yes' else 0)
 df_pred['MaritalStatus'] = df_pred['MaritalStatus'].apply(transform)
 df_pred['HomeOwnershipType'] = df_pred['HomeOwnershipType'].apply(transform)
 df_pred['UseOfLoan'] = df_pred['UseOfLoan'].apply(transform)
